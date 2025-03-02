@@ -4,10 +4,11 @@ Social media is a priceless source of datasets which can be really interesting i
 Basically, I want to use tweets as a stream survey for (un)popular opinions. The user inputs a tag, the application retrieves tweets involving the tag, analyzes them and returns a report.
 
 The stack to be used:
-- Python 3.12
+- Python 3.11
 - PySpark for handling large datasets.
 - Twitter API for fetching tweets in real time.
-- Neural Networks and Random Forest, for classification.
+- Machine Learning models, for classification.
+- NPL for unsupervised training.
 - Flask, for displaying and reporting the results.
 
 Along with the code processing, relevant information, warnings and erros are logged.
