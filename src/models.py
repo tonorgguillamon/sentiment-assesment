@@ -3,6 +3,7 @@ import torch
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 from textblob import TextBlob
+from dataclasses import dataclass
 
 class DataModel():
     """
@@ -80,6 +81,12 @@ class TEXTBLOB():
 
 class DEEPMOJI():
     pass
+
+@dataclass
+class Sentiment():
+    opinion: str
+    biased: bool
+    emotion: str
     
 if __name__ == "__main__":
     bertModel = BERT("nlptown/bert-base-multilingual-uncased-sentiment")

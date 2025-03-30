@@ -2,6 +2,8 @@ import os
 import sys
 import tweepy
 import time
+from dataclasses import dataclass
+from typing import Optional
 
 '''
 Documentation:
@@ -38,7 +40,7 @@ class TWITTER():
                 response = self.twitterClient.search_recent_tweets(
                         query=query, 
                         tweet_fields=tweetFields,
-                        max_results=50,
+                        max_results=10,
                         next_token=nextPage
                 )
 
@@ -53,13 +55,15 @@ class TWITTER():
 
                     tweets.append(tweet)
 
+                    '''
                     user = self.twitterClient.get_user(id=tweet.author_id, user_fields=userFields)
                     print(f"User ID: {user.data.id}")
                     print(f"User Name: {user.data.name}")
                     print(f"Username: {user.data.username}")
                     print(f"Description: {user.data.description}")
                     print(f"User Followers Count: {user.data.public_metrics['followers_count']}")
-                    print("-" * 50)
+                    print("-" * 50)'
+                    '''
 
                 if 'next_token' in response.meta:
                     nextPage = response.meta['next_token']
@@ -69,14 +73,35 @@ class TWITTER():
             except Exception as e:
                 print(f"Error fetching tweets: {e}")
                 return None
-    
 
-tweet_fields = ['created_at', 'id', 'author_id', 'text', 'public_metrics', 'geo', 'lang', 'attachments', 'entities']
-user_fields = ['id', 'name', 'username', 'description', 'created_at', 'public_metrics']
+@dataclass
+class User():
+    uniqueId: str
+    name: str
+    username: str
+    description: str
+    publicMetrics: str
 
-twitter = TWITTER("TWITTER_TOKEN")
-tweets =  twitter.getTweets("formula 1", tweet_fields, user_fields)
+@dataclass
+class Tweet():
+    # https://docs.x.com/x-api/posts/recent-search
+    createdAt: str # "2021-01-06T18:40:40.000Z"
+    uniqueId: str
+    authorId: str
+    publicMetrics: object
+    geo: object
+    attachments: object
+    entity: object
 
-print(tweets)
+    user: Optional["User"] = None
+
+if __name__ == "__main__":
+    tweet_fields = ['created_at', 'id', 'author_id', 'text', 'public_metrics', 'geo', 'lang', 'attachments', 'entities']
+    user_fields = ['id', 'name', 'username', 'description', 'created_at', 'public_metrics']
+
+    twitter = TWITTER("TWITTER_TOKEN")
+    tweets =  twitter.getTweets("formula 1", tweet_fields, user_fields)
+
+    print(tweets)
 
 
